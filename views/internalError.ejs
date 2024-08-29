@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= title %> </title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="headCont">
+                    <%- include('headerFooter/header') %>
+                </div>
+            </header>
+
+            <main class="internalErrorMain" id="internalErrorMain" aria-labelledby='internalErrorMain'>
+                <p style="font-size: 20px;">Internal Server Error </p>
+                <p style="font-size: 30px; font-weight: bold;">500</p>
+                <p>The server encountered an internal error or misconfiguration and was unable 
+                    to complete your request.
+                </p>
+            </main>
+
+            <%- include('headerFooter/footer') %>
+        </div>
+            
+        
+    </body>
+</html>

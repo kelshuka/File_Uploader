@@ -1,0 +1,189 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+.container{
+    position: relative;
+    min-height: 100vh;
+}
+
+.navButtsHome {
+    background: white;
+    border: 1px solid #353b3f;
+    color: black;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 1vh;
+    margin-left: 10;
+}
+.navButtsHome:hover{
+    background-color: #a7cae2;
+    color: white;
+    transform: scale(1.2);
+    box-shadow: 
+    0 0 0 2px rgb(92, 85, 85),
+    0.3em 0.3em 1em rgb(137, 179, 216);
+}
+
+
+nav{
+    display: flex;
+    gap:30px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.navSignLog{
+    display: flex;
+    gap: 32px;
+}
+
+.navSignLog div{
+    background-color: white;
+    border: 1px solid #353b3f;
+    color: black;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 1vh;
+    margin-right: 10px;
+}
+.logSign:hover{
+    background-color: #a7cae2;
+    color: white;
+    transform: scale(1.2);
+    box-shadow: 
+    0 0 0 2px rgb(92, 85, 85),
+    0.3em 0.3em 1em rgb(137, 179, 216);
+}
+
+.headCont{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    position: fixed;
+    background-color: #6f92c7;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 100px;
+}
+
+main{
+    padding-top: 200px;
+    padding-left: 20px;
+    padding-bottom: 40px;
+    padding-right: 20px;
+}
+
+
+.indexMain{
+    /* width: 400px; */
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 200px;
+}
+.index-main{
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 200px;
+}
+
+.homeDesc{
+    background-color: rgb(41, 70, 100);
+    padding: 25px 18px;
+    color: white;
+    font-size: 24px;
+}
+.homeButts{
+    background-color: rgb(211, 195, 195);
+    width: 220px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5px;
+    font-size: 18px;
+}
+.homeButts:hover{
+    background-color: #a7cae2;
+    transform: scale(1.2);
+    box-shadow: 
+    0 0 0 2px rgb(92, 85, 85),
+    0.3em 0.3em 1em rgb(137, 179, 216);
+}
+  
+footer {
+    height: 72px;
+    background: #6281ad;
+    color: white;
+    bottom: 0;
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 52px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 10px;
+}
+
+.errorMsg{
+    background-color: white;
+    color: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 9px;
+}
+
+.internalErrorMain{
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pageNotFoundMain{
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 800px){
+    nav{
+        gap:10px;
+        padding: 15px 10px;
+    }
+    .navButts {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+    header {
+        height: 70px;
+        margin-bottom: 30px;
+    }
+    main{
+        padding-top: 80px;
+    }
+}
+
+

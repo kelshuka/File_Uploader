@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= title %> </title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class="container">
+       
+            <header>
+                <div class="headCont">
+                    <%- include('headerFooter/header') %>
+                </div>
+            </header>
+            <main class="index-main" id="indexMain" aria-labelledby='indexMain'>
+                
+                <div class="homeDesc">
+                    <p>TopStorage Drive!</p>
+                    <p>Sync all your files in the cloud!</p>
+                <section class="homeButts"> <a href="/sign-up"> Sign Up! </a> </section>
+                </div>
+                
+            </main>
+            
+            <%- include('headerFooter/footer') %>
+
+        </div>
+    </body>
+</html>

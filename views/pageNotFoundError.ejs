@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= title %> </title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="headCont">
+                    <%- include('headerFooter/header') %>
+                </div>
+            </header>
+
+            <main class="pageNotFoundMain" id="pageNotFoundMain" aria-labelledby='pageNotFoundMain'>
+                <p style="font-size: 20px;">Page Not Found: </p>
+                
+            </main>
+
+            <%- include('headerFooter/footer') %>
+        </div>
+            
+        
+    </body>
+</html>

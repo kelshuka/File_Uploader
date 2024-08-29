@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> <%= title %> </title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="headCont">
+                    <%- include('../headerFooter/header') %>
+                </div>
+            </header>
+
+            <main class="newMemberMain" id="newMemberMain" aria-labelledby='newMemberMain'>
+                <form action="/sign-up" method="POST">
+
+                    <% if (locals.errors) { %>
+                        <ul class="errorMsg">
+                            <% errors.forEach(error => { %>
+                                <li>
+                                    <%= error.msg %>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } %>
+
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" >
+
+                    <label for="passWord">Password:</label>
+                    <input type="password" id="passWord" name="password" required>
+
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </main>
+
+            <%- include('../headerFooter/footer') %>
+        </div>
+            
+        
+    </body>
+</html>

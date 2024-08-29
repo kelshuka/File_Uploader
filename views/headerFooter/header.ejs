@@ -1,0 +1,49 @@
+<nav>
+    <section class="navButtsHome">
+        <a href="/">
+            <span id="homeNav" aria-labelledby='homeNav'> Home </span>
+        </a>
+    </section>
+
+    <section> TopStorage </section>
+
+    <section class="navButts">
+        <section class="navSignLog">
+
+            <% if (!locals.currentUser) { %> 
+
+                <div class="logSign">
+                    <a href="/log-in">
+                        <span id="logInNav" aria-labelledby='logInNav'> login </span>
+                    </a>
+                </div>
+
+                <div class="logSign">
+                    <a href="/sign-up">
+                        <span id="signNav" aria-labelledby='signNav'> sign up </span>
+                    </a>
+                </div>
+            
+            <% } else { %>
+
+                <div class="logSign">
+                    @<a href="#">
+                        <%= locals.currentUser.username %>
+                    </a>
+                </div>
+
+                <div class="logSign">
+                    <a href="/log-out">
+                        <span id="genresNav" aria-labelledby='genresNav'> log out </span>
+                    </a>
+                </div>
+            
+            <% } %>
+            
+            
+        </section>
+       
+        
+    </section>
+   
+</nav>
