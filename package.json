@@ -1,4 +1,18 @@
 {
+  "name": "file-storage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "postcss public/styles/tailwind.css -o public/styles/tailwind-built.css",
+    "watch:css": "postcss public/styles/tailwind.css -o public/styles/tailwind-built.css --watch",
+
+    "start": "node app.js",
+    "migrate": "prisma migrate deploy",
+
+    "deploy": "npm run migrate && npm start"
+  },
   "dependencies": {
     "@prisma/client": "^5.19.0",
     "@quixo3/prisma-session-store": "^3.1.13",
