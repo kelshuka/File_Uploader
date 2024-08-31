@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,63 +7,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Folder {
-  id              String        @id @default(uuid())
-  name            String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  user            User          @relation(fields: [userId], references: [id])
-  userId          String
-  files           File[]      
-  subfolders      Folder[]      @relation("Subfolders")       
-  parent          Folder?       @relation("Subfolders", fields: [parentId], references: [id])  
-  parentId        String?
-  shareLinks      ShareLink[]   @relation("FolderShareLinks")      
+  id         String      @id @default(uuid())
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  userId     String
+  parentId   String?
+  files      File[]
+  parent     Folder?     @relation("Subfolders", fields: [parentId], references: [id])
+  subfolders Folder[]    @relation("Subfolders")
+  user       User        @relation(fields: [userId], references: [id])
+  shareLinks ShareLink[] @relation("FolderShareLinks")
 }
 
-
 model File {
-  id              String        @id @default(uuid())
-  name            String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  path            String
-  size            Int
-  folder          Folder?       @relation(fields: [folderId], references: [id])
-  folderId        String?
-  shareLinks      ShareLink[]   @relation("FileShareLinks")
+  id         String      @id @default(uuid())
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  path       String
+  size       Int
+  folderId   String?
+  folder     Folder?     @relation(fields: [folderId], references: [id])
+  shareLinks ShareLink[] @relation("FileShareLinks")
 }
 
 model User {
-  id              String        @id @default(uuid())
-  username        String        @unique
-  email           String
-  password        String     
-  folders         Folder[]    
+  id       String   @id @default(uuid())
+  username String   @unique
+  email    String
+  password String
+  folders  Folder[]
 }
-
 
 model Session {
-  id              String        @id @default(uuid())
-  sid             String        @unique
-  data            String    
-  expiresAt       DateTime
+  id        String   @id @default(uuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
-
-// Want to be able to share a folder or a file, so added the ShareLink
-
 model ShareLink {
-  id              String         @id @default(uuid())
-  link            String         @unique
-  expiresAt       DateTime
-  createdAt       DateTime       @default(now())
-
-  folderId        String?        // Nullable if sharing a file instead of a folder
-  folder          Folder?        @relation("FolderShareLinks", fields: [folderId], references: [id])
-
-  
-  fileId          String?        // Nullable if sharing a folder instead of a file
-  file            File?          @relation("FileShareLinks", fields: [fileId], references: [id])
+  id        String   @id @default(uuid())
+  link      String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  folderId  String?
+  fileId    String?
+  file      File?    @relation("FileShareLinks", fields: [fileId], references: [id])
+  folder    Folder?  @relation("FolderShareLinks", fields: [folderId], references: [id])
 }
