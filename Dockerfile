@@ -4,11 +4,14 @@ FROM node:16
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files
+# Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+
+# Copy the Prisma schema file separately (ensure the directory exists in your project)
+COPY prisma/schema.prisma ./prisma/schema.prisma
 
 # Copy the rest of the application code
 COPY . .
