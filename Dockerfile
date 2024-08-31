@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:16
+FROM node:20.11.1
 
 # Set the working directory inside the container
 WORKDIR /
@@ -8,7 +8,7 @@ WORKDIR /
 COPY package*.json ./
 
 # Install dependencies
-#RUN npm install
+RUN npm install
 
 # Copy the Prisma schema file separately (ensure the directory exists in your project)
 COPY prisma/schema.prisma ./prisma/schema.prisma
