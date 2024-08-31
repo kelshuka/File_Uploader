@@ -32,4 +32,12 @@ filesRouter.get('/file/:fileId/download', filesController.downloadFile);
 filesRouter.post('/:type/:id/rename', filesController.renameByTypeAndId);
 filesRouter.post('/:type/:id/delete',  filesController.deleteByTypeAndId);
 
+// All folders and all files
+filesRouter.get('/driveFolder/all-folders', filesController.allFolders);
+filesRouter.get('/driveFolder/all-files', filesController.allFiles);
+
+
+// Share folders and files
+filesRouter.post('/share', filesController.createShareLink);
+
 module.exports = filesRouter;

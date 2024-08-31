@@ -10,6 +10,7 @@
     </head>
     <%- include('./modals/updateForm.ejs') %>
     <%- include('./modals/uploadFile.ejs') %>
+    <%- include('./modals/shareForm.ejs') %>
     <body class="flex flex-col min-h-screen">
         <div class="container">
        
@@ -19,6 +20,26 @@
                 </div>
             </header>
             <main class="indexMain" id="indexMain" aria-labelledby='indexMain'>
+
+                <div class="foldersFiles" >
+
+                    <div class="flex items-center gap-3 ml-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 sm:size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                        </svg> 
+                        <button> <a href="/drive/driveFolder/all-folders">All Folders </a> </button>
+                    </div>
+                    <div class="flex items-center gap-3 ml-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 sm:size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                        </svg> 
+                        <button> <a href="/drive/driveFolder/all-files">All Files </a> </button>
+                    </div>
+
+                </div>
+
+
+
                 
                 <div class="flex items-center">
                     <% if(folder.parentId) { %>
@@ -111,6 +132,15 @@
                                                                 </svg> 
                                                                 Edit
                                                             </button>
+
+                                                            <!-- Share Option -->
+                                                            <button data-modal-toggle="share-modal" task="share" share-type="folder"
+                                                                share-target-id="<%= folder.id %>" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem" tabindex="-1" id="menu-item-<%= folder.id %>-share">
+                                                                Share
+                                                            </button>
+
+                                                            <!-- Delete Option -->
                                                             <form method="POST" action="/drive/folder/<%= subfolder.id %>/delete" role="none">
                                                                 <button type="submit" 
                                                                     class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -177,6 +207,14 @@
                                                                 </svg>
                                                                 Edit
                                                             </button>
+
+                                                            <!-- Share Option -->
+                                                            <button data-modal-toggle="share-modal" task="share" share-type="file"
+                                                                share-target-id="<%= file.id %>" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem" tabindex="-1" id="menu-item-<%= file.id %>-share">
+                                                                Share
+                                                            </button>
+
                                                             <form method="POST" action="/drive/file/<%= file.id %>/delete" role="none">
                                                                 <button type="submit" 
                                                                     class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -277,6 +315,24 @@
                             const parentElement = modal.querySelector('#upload-parent');
                             parentElement.textContent = parent;
                         }
+
+                        modal.showModal();
+                    });
+                });
+
+
+                // Handle the share button click
+                document.querySelectorAll('[task="share"]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const shareId = button.getAttribute('share-target-id');
+                        const shareType = button.getAttribute('share-type');
+                        const modal = document.getElementById('share-modal');
+                        
+                        modal.querySelector('#shareId').value = shareId;
+                        modal.querySelector('#shareType').value = shareType;
+
+                        const shareItemName = button.closest('tr').querySelector('td').innerText;
+                        modal.querySelector('#shareItemName').innerText = shareItemName;
 
                         modal.showModal();
                     });

@@ -1,17 +1,19 @@
-
-const passport = require("passport");
+require("dotenv").config();
 const asyncHandler = require('express-async-handler');
-const { validationResult } = require('express-validator');
 const db = require("../db/queries");
-const validateSignUp = require('../middleware/validateSignUp');
 
 const axios = require('axios');
 const formatters = require('../utils/formatters');
 
 const cloudinary = require('../utils/cloudinary.config');
-
 const fs = require('fs');
 const path = require('path');
+
+const { v4: uuidv4 } = require('uuid');
+const nodemailer = require('nodemailer');
+
+
+
 
 
 const rootFolderDirectory = asyncHandler( async (req, res) => {
@@ -170,6 +172,85 @@ const deleteByTypeAndId = asyncHandler( async(req, res) => {
     res.redirect(redirectUrl);
 })
 
+// All folders and all files
+const allFolders = asyncHandler( async (req, res) => {
+    const userId = req.user.id;
+    const folders = await db.getAllFolders(userId);
+
+    
+    // Format dates
+    const formattedFolders = folders.map(folder => ({
+        ...folder,
+        formattedCreatedAt: formatters.formatDate(folder.createdAt),
+        formattedUpdatedAt: formatters.formatDate(folder.updatedAt),
+    }));
+
+    res.render('foldersOnly', { folders: formattedFolders });
+});
+
+// All folders and all files
+const allFiles = asyncHandler( async (req, res) => {
+    const userId = req.user.id;
+    const files = await db.getAllFiles(userId);
+
+    // Format dates and sizes
+    const formattedFiles = files.map(file => ({
+        ...file,
+        formattedSize: formatters.formatBytes(file.size),
+        formattedCreatedAt: formatters.formatDate(file.createdAt),
+        formattedUpdatedAt: formatters.formatDate(file.updatedAt),
+    }));
+
+    res.render('filesOnly', { files: formattedFiles });
+});
+
+
+// Want to share folders and files
+const createShareLink = asyncHandler( async (req, res) => {
+
+    const { shareId, shareType, duration, email, authPassword } = req.body;
+
+    // Validate the authorization password
+    if (authPassword !== process.env.SHARE_FILE_AUTH_PASSWORD) {
+        return res.status(401).json({ error: "Unauthorized: Invalid authorization password" });
+    }
+
+    const linkId = uuidv4(); // Generate a unique link ID
+
+    console.log("Received duration in controller:", duration); // Debugging statement
+
+
+    await db.shareAnyLink(shareId, shareType, linkId, duration);
+
+    // Generate the full link
+    const fullLink = `${req.protocol}://${req.get('host')}/share/${linkId}`;
+
+    await sendShareLinkEmail(email, fullLink);
+    res.redirect('/drive'); // Redirect to the file/folder view or show a success message
+});
+
+
+
+// Sending email with Nodemailer
+async function sendShareLinkEmail(to, link) {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD,
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to,
+        subject: 'Shared Folder/File Link',
+        text: `Access the shared folder/file using this link: ${link}`
+    };
+
+    return transporter.sendMail(mailOptions);
+}
+
 
 module.exports = {
     rootFolderDirectory,
@@ -179,5 +260,8 @@ module.exports = {
     renderFile,
     downloadFile,
     renameByTypeAndId,
-    deleteByTypeAndId
+    deleteByTypeAndId,
+    allFolders,
+    allFiles,
+    createShareLink
 };

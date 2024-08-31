@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Folders</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="/tailwind-built.css" rel="stylesheet">
+</head>
+<%- include('./modals/updateForm.ejs') %>
+<%- include('./modals/shareForm.ejs') %>
+<body class="flex flex-col min-h-screen">
+    <div class="container">
+        <header>
+            <div class="headCont">
+                <%- include('headerFooter/header') %>
+            </div>
+        </header>
+        <main class="indexMain">
+
+            <div class="foldersFiles" >
+
+                
+                <div class="flex items-center gap-3 ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 sm:size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                    </svg> 
+                    <button> <a href="/drive/driveFolder/all-files">All Files </a> </button>
+                </div>
+
+                <div class="flex items-center gap-3 ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 sm:size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                    </svg> 
+                    <button> <a href="/drive">All Files and Folders </a> </button>
+                </div>
+
+            </div>
+
+
+            <h1 class="text-xl font-bold mb-4">All Folders</h1>
+            <div class="overflow-x-auto pb-16">
+                <div class="rounded-lg border border-gray-300 my-3 bg-white shadow-md">
+                    <table class="w-full">
+                        <thead class="bg-gray-200 text-black text-sm">
+                            <tr class="text-left border-b">
+                                <th class="px-4 py-2 font-normal" style="width: 44%;">Name</th>
+                                <th class="px-4 py-2 font-normal" style="width: 10%;">Size</th>
+                                <th class="hidden sm:table-cell px-4 py-2 font-normal" style="width: 20%;">Created</th>
+                                <th class="hidden sm:table-cell px-4 py-2 font-normal" style="width: 20%;">Last Updated</th>
+                                <th class="px-4 py-2 font-normal" style="width: 6%;">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-[12px] sm:text-sm">
+                            <% if (folders.length === 0) { %>
+                                <tr class="bg-gray-50">
+                                    <td colspan="4" class="text-center py-4 text-gray-500 text-sm">No folders found.</td>
+                                </tr>
+                            <% } else { %>
+                                <% folders.forEach(folder => { %>
+                                    <% folder.subfolders.forEach(subfolder => { %> <!-- Ensure subfolder is correctly accessed -->
+                                        <tr class="hover:bg-gray-50 cursor-pointer transition-colors" onclick="window.location.href = '/drive/<%= subfolder.id %>' ">
+                                            <td class="px-4 py-2 text-blue-600 hover:underline">
+                                                <div class="flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 mr-2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                                                    </svg>
+                                                    <%= subfolder.name %>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-2"> - </td>
+                                            <td class="hidden sm:table-cell px-4 py-2"> <%= subfolder.formattedCreatedAt %> </td>
+                                            <td class="hidden sm:table-cell px-4 py-2"> <%= subfolder.formattedUpdatedAt %> </td>
+                                            <td class="px-4 py-2 relative">
+                                                <div class="relative flex">
+                                                    <button 
+                                                    class="w-full justify-center rounded-md px-3 py-2 hover:text-blue-600" 
+                                                    type="button" id="menu-button-<%= subfolder.id %>" aria-expanded="true" aria-haspopup="true">
+                                                        <!-- Ellipsis -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 sm:size-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                                        </svg> 
+                                                    </button>
+
+                                                    <div 
+                                                    class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button-<%= subfolder.id %>" tabindex="-1">
+                                                        <div class="py-1" role="none">
+                                                            <button data-modal-toggle="edit-modal" task="edit" edit-type = "folder"
+                                                                edit-target-id="<%= subfolder.id %>" current-name ="<%= subfolder.name %>"
+                                                                class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem" tabindex="-1" id="menu-item-<%= subfolder.id %>-edit">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                                </svg> 
+                                                                Edit
+                                                            </button>
+
+                                                            <!-- Share Option -->
+                                                            <button data-modal-toggle="share-modal" task="share" share-type="folder"
+                                                                share-target-id="<%= folder.id %>" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem" tabindex="-1" id="menu-item-<%= folder.id %>-share">
+                                                                Share
+                                                            </button>
+
+
+                                                            <form method="POST" action="/drive/folder/<%= subfolder.id %>/delete" role="none">
+                                                                <button type="submit" 
+                                                                    class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                    role="menuitem" tabindex="-1"
+                                                                    id="menu-item-<%= subfolder.id %>-delete">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% }) %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <%- include('headerFooter/footer') %>
+    </div>
+
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+                // Dropdown toggle logic
+            document.querySelectorAll('[id^="menu-button"]').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    // Prevent this click event from closing the dropdown itself
+                    event.stopPropagation();
+
+                    // Close all other open dropdowns
+                    document.querySelectorAll('[id^="menu-button"]').forEach(btn => {
+                        const menu = btn.nextElementSibling;
+                        if(menu && !menu.classList.contains('hidden') && menu !== button.nextElementSibling){
+                            menu.classList.add('hidden');
+                        }
+                    });
+
+                    // Toggle the clicked dropdown
+                    const menu = button.nextElementSibling;
+                    if(menu){
+                        menu.classList.toggle('hidden');
+                    }
+                });
+            });
+
+            // Stop the dropdown menuitems click event from propagating to parent elements
+            document.querySelectorAll('[role="menuitem"]').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    // Close the parent dropdown
+                    const menu = item.closest('[role="menu"]');
+                    if(menu){
+                        menu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Close dropdowns on clicking outside
+            document.addEventListener('click', function(event){
+                document.querySelectorAll('[id^="menu-button"]').forEach(button => {
+                    const menu = button.nextElementSibling;
+                    if(menu && !menu.classList.contains('hidden') && !button.contains(event.target)){
+                        menu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Handle modal toggles
+            const toggleButtons = document.querySelectorAll('[data-modal-toggle]');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modalId = button.getAttribute('data-modal-toggle');
+                    const modalTask = button.getAttribute('task');
+                    const modal = document.getElementById(modalId);
+
+                    if (modalTask === 'edit') {
+                        const editType = button.getAttribute('edit-type');
+                        const editId = button.getAttribute('edit-target-id');
+                        const currentName = button.getAttribute('current-name');
+
+                        const form = modal.querySelector('form');
+                        const name = modal.querySelector('input[type="text"]');
+                        form.action = `/drive/${editType}/${editId}/rename`;
+                        name.value = currentName;
+                    }
+                    if (modalTask === 'upload') {
+                        const parent = button.getAttribute('parent-name');
+                        const parentElement = modal.querySelector('#upload-parent');
+                        parentElement.textContent = parent;
+                    }
+
+                    modal.showModal();
+                });
+            });
+
+            // Handle the share button click
+            document.querySelectorAll('[task="share"]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const shareId = button.getAttribute('share-target-id');
+                    const shareType = button.getAttribute('share-type');
+                    const modal = document.getElementById('share-modal');
+                    
+                    modal.querySelector('#shareId').value = shareId;
+                    modal.querySelector('#shareType').value = shareType;
+
+                    const shareItemName = button.closest('tr').querySelector('td').innerText;
+                    modal.querySelector('#shareItemName').innerText = shareItemName;
+
+                    modal.showModal();
+                });
+            });
+
+            // Handle modal close
+            document.querySelectorAll('[data-modal-close]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modalId = button.getAttribute('data-modal-close');
+                    const modal = document.getElementById(modalId);
+                    modal.close();
+                });
+            });
+
+            // Initialize upload modal to defaults at each open close
+            const fileInput = document.getElementById('uploaded_file');
+            const fileNameContainer = document.getElementById('file-name-container');
+            const fileNameSpan = document.getElementById('file-name');
+            const errorContainer = document.getElementById('file-error-container');
+            const modalOpenButton = document.getElementById('open-upload-btn'); // The button that opens the modal
+
+            // Reset the error container and file input when the modal is opened
+            modalOpenButton.addEventListener('click', function() {
+                // Clear the error container
+                errorContainer.innerHTML = '';
+                errorContainer.classList.add('hidden');
+                
+                // Reset the file input and file name display
+                fileInput.value = '';
+                fileNameSpan.textContent = 'No file chosen';
+                fileNameContainer.style.display = 'none';
+            });
+
+        });
+
+    </script>
+</body>
+</html>

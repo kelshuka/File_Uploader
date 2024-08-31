@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 
 
+
 async function findUser(colName, query){
 
     try{
@@ -31,7 +32,7 @@ async function signUp(signer) {
             password: hash,
             folders: {
                 create: {
-                    name: 'My Folders'
+                    name: 'My Docs'
                 }
             }
         }
@@ -181,6 +182,105 @@ async function deLete(type, id){
 }
 
 
+async function getAllFolders(userId){
+    try {
+        const folders = await prisma.folder.findMany({
+            where: { userId: userId },
+            include: {
+                subfolders: true,
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        });
+        return folders;
+    } catch(error) {
+        console.error('Error getting folders', error);
+        throw error;
+    }
+};
+
+async function getAllFiles(userId){
+    try {
+        const files = await prisma.file.findMany({
+            where: {
+                folder:{
+                     userId: userId 
+                }
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        });
+        return files;
+    } catch(error) {
+        console.error('Error getting files', error);
+        throw error;
+    }
+};
+
+
+// To share files and folders
+
+// Helper function to parse duration like "1d", "10d" into milliseconds
+function parseDuration(duration) {
+    // Ensure the duration is a string and not empty
+    if (typeof duration !== 'string' || duration.length === 0) {
+        throw new Error('Invalid duration format');
+    }
+
+    // If the duration is just a number (e.g., "3"), assume days
+    if (!isNaN(duration)) {
+        duration = duration + 'd'; // Default to days
+    }
+
+    const unit = duration.slice(-1); // Extract the last character (unit)
+    const value = parseInt(duration.slice(0, -1)); // Extract the number part
+
+    console.log("Parsed value:", value, "unit:", unit); // Debugging statement
+
+    if (isNaN(value) || value <= 0) {
+        throw new Error('Invalid duration value');
+    }
+
+    switch (unit) {
+        case 'd':
+            return value * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+        default:
+            throw new Error('Invalid duration unit');
+    }
+}
+
+async function shareAnyLink(shareId, shareType, linkId, duration){
+    try{
+
+        const expiresAt = new Date(Date.now() + parseDuration(duration));
+
+        let sharedLink;
+        if (shareType === 'folder'){
+            sharedLink = await prisma.shareLink.create({
+                data: {
+                    folderId: shareId,
+                    link: linkId,
+                    expiresAt,
+                }
+            });
+        } else if (shareType === 'file'){
+            sharedLink = await prisma.shareLink.create({
+                data: {
+                    fileId: shareId,
+                    link: linkId,
+                    expiresAt,
+                }
+            });
+        }
+        return sharedLink;
+    } catch(error) {
+        console.error('Error creating shared link', error);
+        throw error;
+    }
+}
+
 
 module.exports = {
     findUser,
@@ -191,5 +291,8 @@ module.exports = {
     addFile,
     getFile,
     reName,
-    deLete
+    deLete,
+    getAllFolders,
+    getAllFiles,
+    shareAnyLink
 };

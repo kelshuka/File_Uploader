@@ -24,7 +24,8 @@ model Folder {
   files           File[]      
   subfolders      Folder[]      @relation("Subfolders")       
   parent          Folder?       @relation("Subfolders", fields: [parentId], references: [id])  
-  parentId        String?      
+  parentId        String?
+  shareLinks      ShareLink[]   @relation("FolderShareLinks")      
 }
 
 
@@ -37,6 +38,7 @@ model File {
   size            Int
   folder          Folder?       @relation(fields: [folderId], references: [id])
   folderId        String?
+  shareLinks      ShareLink[]   @relation("FileShareLinks")
 }
 
 model User {
@@ -56,3 +58,18 @@ model Session {
 }
 
 
+// Want to be able to share a folder or a file, so added the ShareLink
+
+model ShareLink {
+  id              String         @id @default(uuid())
+  link            String         @unique
+  expiresAt       DateTime
+  createdAt       DateTime       @default(now())
+
+  folderId        String?        // Nullable if sharing a file instead of a folder
+  folder          Folder?        @relation("FolderShareLinks", fields: [folderId], references: [id])
+
+  
+  fileId          String?        // Nullable if sharing a folder instead of a file
+  file            File?          @relation("FileShareLinks", fields: [fileId], references: [id])
+}

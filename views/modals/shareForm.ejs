@@ -1,0 +1,36 @@
+<dialog id="share-modal" class="modal">
+    <form method="POST" action="/drive/share" class="p-4 md:p-5">
+        <input type="hidden" name="shareId" id="shareId">
+        <input type="hidden" name="shareType" id="shareType">
+        
+        <div class="modal-content" style="display: flex; flex-direction: column; gap: 8px;">
+            <h3 style="font-style: italic; color: grey; font-size: 28px;">Share <span id="shareItemName"></span></h3>
+            <label for="duration" style="font-style: italic;">Duration:</label>
+            <input type="text" id="duration" name="duration" placeholder="e.g., 1d, 5d" required>
+            
+            <label for="email" style="font-style: italic;">Send to Email:</label>
+            <input type="email" id="email" name="email" placeholder="recipient@example.com" required>
+
+            <!-- Authorization Password Field -->
+            <label for="authPassword" style="font-style: italic;">Authorization Password:</label>
+            <input type="password" id="authPassword" name="authPassword" placeholder="Enter authorization password" required>
+ 
+            <div class="modal-footer" style="display: flex; justify-content: space-between;">
+                <button type="submit" class="btn btn-primary" 
+                    style="background-color: rgb(41, 70, 100);
+                    padding: 10px 6px;
+                    color: white;
+                    font-size: 16px;">
+                        Share
+                </button>
+                <button type="button" class="btn btn-secondary" data-modal-close="share-modal"
+                    style="background-color: rgb(41, 70, 100);
+                    padding: 10px 6px;
+                    color: white;
+                    font-size: 16px;">
+                        Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</dialog>

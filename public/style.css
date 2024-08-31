@@ -61,6 +61,7 @@ nav{
     0.3em 0.3em 1em rgb(137, 179, 216);
 }
 
+
 .headCont{
     margin-left: auto;
     margin-right: auto;
@@ -93,6 +94,18 @@ main{
     margin-left: auto;
     margin-right: auto;
     padding-top: 200px;
+}
+
+
+.foldersFiles{
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+.foldersFiles{
+    display: flex;
+    justify-content: space-between;
 }
 
 .homeDesc{
