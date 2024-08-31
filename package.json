@@ -1,6 +1,9 @@
 
 {
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "postinstall": "prisma generate",
     "migrate": "prisma migrate deploy"
   },
